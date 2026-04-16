@@ -5,15 +5,15 @@ from .models import Article, Category, Newsletter, Comment, Contact
 
 
 def home_view(request):
-    main_articles = Article.objects.select_related('category').filter(published=True).order_by('-important', '-views')[
+    main_articles = Article.objects.select_related('category').filter(published=True).exclude(slug='').order_by('-important', '-views')[
         :9]
-    latest_articles = Article.objects.select_related('category').filter(published=True).order_by('-created_at')[:8]
+    latest_articles = Article.objects.select_related('category').filter(published=True).exclude(slug='').order_by('-created_at')[:8]
 
     categories = Category.objects.all()
     category_articles = {}
 
     for category in categories:
-        articles = Article.objects.filter(published=True, category=category).order_by('-created_at')
+        articles = Article.objects.filter(published=True, category=category).exclude(slug='').order_by('-created_at')
         if articles.exists():
             category_articles[category.id] = {
                 'category': category,
@@ -21,10 +21,10 @@ def home_view(request):
                 'side_articles': articles[1:5] if articles.count() > 1 else []
             }
 
-    most_viewed_articles = Article.objects.filter(published=True).order_by('-views')[:5]
+    most_viewed_articles = Article.objects.filter(published=True).exclude(slug='').order_by('-views')[:5]
 
     # Motivatsiya bo'limi uchun ma'lumotlar
-    motivation_all = Article.objects.filter(published=True, is_motivation=True).order_by('-id')
+    motivation_all = Article.objects.filter(published=True, is_motivation=True).exclude(slug='').order_by('-id')
     motivation_main = motivation_all.first()
     motivation_list = motivation_all[1:4]
 
@@ -49,10 +49,10 @@ class ArticleDetailView(View):
         like_articles = Article.objects.select_related('category').filter(
             published=True,
             category=article.category
-        ).exclude(slug=slug).order_by('-created_at')[:4]
+        ).exclude(slug=slug).exclude(slug='').order_by('-created_at')[:4]
 
         # Tafsilotlar sahifasi uchun ham motivatsiya postlarini olish
-        motivation_all = Article.objects.filter(published=True, is_motivation=True).order_by('-id')
+        motivation_all = Article.objects.filter(published=True, is_motivation=True).exclude(slug='').order_by('-id')
         motivation_main = motivation_all.first()
         motivation_list = motivation_all[1:4]
 
@@ -83,7 +83,7 @@ class ArticleDetailView(View):
 class CategoryDetailsView(View):
     def get(self, request, pk):
         category = get_object_or_404(Category, pk=pk)
-        articles = category.article_set.filter(published=True).order_by('-created_at')
+        articles = category.article_set.filter(published=True).exclude(slug='').order_by('-created_at')
         context = {
             'category': category,
             'articles': articles,
