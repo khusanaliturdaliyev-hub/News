@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Single Product Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <ol class="breadcrumb justify-content-start mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Bosh sahifa</a></li>
+            <li class="breadcrumb-item"><a href="#">{{ article.category.name }}</a></li>
+            <li class="breadcrumb-item active text-dark">{{ article.title|truncatechars:50 }}</li>
+        </ol>
+        <div class="row g-4">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="mb-4">
+                    <a href="#" class="h1 display-5">
+                        {{ article.title }}
+                    </a>
+                </div>
+                <div class="position-relative rounded overflow-hidden mb-3">
+                    <img src="{{ article.cover.url }}" class="img-zoomin img-fluid rounded w-100" alt="">
+                    <div class="position-absolute text-white px-4 py-2 bg-primary rounded"
+                         style="top: 20px; right: 20px;">
+                        {{ article.category.name }}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-clock"></i> {{ article.read_time }}
+                        o'qiladi</a>
+                    <a href="#" class="text-dark link-hover me-3"><i class="fa fa-eye"></i> {{ article.views }} ko'rildi</a>
+                    <a href="#" class="text-dark link-hover me-3"><i
+                            class="fa fa-comment-dots"></i> {{ article.comment_set.count }} izohlar</a>
+                    <a href="#" class="text-dark link-hover"><i
+                            class="fa fa-calendar-day"></i> {{ article.created_at|date:"d.m.Y" }}</a>
+                </div>
+
+
+                {% for context in article.context_set.all %}
+                    {% if context.text %}
+                        <p class="my-4">
+                            {{ context.text }}
+                        </p>
+                    {% endif %}
+
+                    {% if context.image %}
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div class="rounded overflow-hidden">
+                                    <img src="{{ context.image.url }}" class="img-zoomin img-fluid rounded w-100"
+                                         alt="">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="tab-class mt-4">
+                    <div class="d-flex justify-content-between border-bottom mb-4">
+                        <ul class="nav nav-pills d-inline-flex text-center">
+                            {% for tag in article.tags.all %}
+                                <li class="nav-item mb-3">
+                                    <a class="d-flex py-2 bg-light rounded-pill active me-2" data-bs-toggle="pill"
+                                       href="#tab-1">
+                                        <span class="text-dark" style="width: 100px;">{{ tag.name }}</span>
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li class="nav-item mb-3">
+                                    <span class="text-muted">Teglar mavjud emas</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="d-flex align-items-center">
+                            <h5 class="mb-0 me-3">Share:</h5>
+                            <i class="fab fa-facebook-f link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                            <i class="btn fab bi-twitter link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                            <i class="btn fab fa-instagram link-hover btn btn-square rounded-circle border-primary text-dark me-2"></i>
+                            <i class="btn fab fa-linkedin-in link-hover btn btn-square rounded-circle border-primary text-dark"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-light rounded my-4 p-4">
+                    <h4 class="mb-4">O'xshash yangiliklar</h4>
+                    <div class="row g-4">
+                        {% for a in like_articles %}
+                            <div class="col-lg-12">
+                                <div class="d-flex align-items-center p-3 bg-white rounded">
+                                    <img src="{{ a.cover.url }}" class="img-fluid rounded" alt="" width="250">
+                                    <div class="ms-3">
+                                        <a href="{% url 'article-details' a.slug %}" class="h5 mb-2">{{ a.title|truncatechars:80 }}</a>
+                                        <p class="text-dark mt-3 mb-0 me-3"><i
+                                                class="fa fa-clock"></i> {{ a.read_time }} o'qiladi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="col-12">
+                                <p class="text-center">O'xshash yangiliklar mavjud emas</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="bg-light rounded p-4">
+                    <h4 class="mb-4">Izohlar</h4>
+
+                    {% for comment in article.comment_set.all %}
+                        <div class="p-4 bg-white rounded mb-4">
+                            <div class="row g-4">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>{{ comment.name }}</h5>
+                                    </div>
+                                    <small class="text-body d-block mb-3"><i
+                                            class="fas fa-calendar-alt me-1"></i> {{ comment.created_at|date:"d.m.Y | H:i" }}</small>
+
+                                    <p class="mb-0">
+                                        {{ comment.text }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="p-4 bg-white rounded mb-4">
+                            <p class="text-center mb-0">Hozircha izohlar mavjud emas. Birinchi izoh qoldiring!</p>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <div class="bg-light rounded p-4 my-4">
+                    <h4 class="mb-4">Izoh qoldiring</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <input type="text" name="name" class="form-control py-3" placeholder="Ismingizni kiriting">
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="email" name="email" class="form-control py-3" placeholder="Elektron pochta ...">
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" name="text" id="" cols="30" rows="4"
+                                          placeholder="Fikrlaringizni izohlang..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button class="form-control btn btn-primary py-3" type="submit">Yuborish</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Single Product End -->
+
+{% endblock %}

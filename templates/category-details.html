@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body style="margin:0;font-family:Inter,Arial,sans-serif;background:#f4f6f8;">
+
+<div style="max-width:1100px;margin:auto;padding:30px 15px;">
+
+    <!-- TOP -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;">
+        <h1 style="margin:0;font-size:28px;">Texnologiya yangiliklari</h1>
+
+        <div>
+            <select style="padding:8px 10px;border-radius:6px;border:1px solid #ccc;">
+                <option>Eng yangi</option>
+                <option>Eng eski</option>
+                <option>Top ko‘rilgan</option>
+            </select>
+
+            <input type="date" style="padding:8px 10px;border-radius:6px;border:1px solid #ccc;margin-left:6px;">
+            <input type="date" style="padding:8px 10px;border-radius:6px;border:1px solid #ccc;margin-left:6px;">
+        </div>
+    </div>
+
+    <!-- NEWS LIST -->
+    <div>
+
+        <!-- CARD -->
+        {% for article in articles %}
+            <div style="background:#fff;border-radius:12px;overflow:hidden;display:flex;box-shadow:0 4px 12px rgba(0,0,0,.07);margin-bottom:18px;">
+                <img src="{{ article.cover.url }}" style="width:280px;object-fit:cover;">
+                <div style="padding:16px 20px;flex:1;">
+                    <a href="{% url 'article-details' article.slug %}">
+                        <h3 style="margin:0 0 10px;font-size:20px;">{{ article.title }}</h3>
+                    </a>
+                    <div style="font-size:13px;color:#777;margin-bottom:8px;">{{ article.created_at|date:"d.m.Y H:i"}} · 👁 {{ article.views }}</div>
+                    <p style="margin:0;">Yangi avlod telefonlar sun’iy intellekt bilan ishlay boshladi...</p>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div style="margin-top:30px;display:flex;justify-content:center;gap:8px;">
+        <a href="#" style="padding:8px 14px;border-radius:6px;background:#e0e0e0;text-decoration:none;color:#333;">1</a>
+        <a href="#" style="padding:8px 14px;border-radius:6px;background:#0057ff;color:#fff;text-decoration:none;">2</a>
+        <a href="#" style="padding:8px 14px;border-radius:6px;background:#e0e0e0;text-decoration:none;color:#333;">3</a>
+        <a href="#" style="padding:8px 14px;border-radius:6px;background:#e0e0e0;text-decoration:none;color:#333;">→</a>
+    </div>
+
+</div>
+
+</body>
+
+{% endblock %}

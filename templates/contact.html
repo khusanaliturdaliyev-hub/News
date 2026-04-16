@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Contact Us Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <!-- Form qismi: Desktopda 7 ulish -->
+            <div class="col-lg-7">
+                <div class="bg-light rounded p-4 p-md-5 shadow-sm h-100">
+                    <h2 class="mb-4">Bog'lanish uchun xabar qoldiring</h2>
+                    <form action="{% url 'contact' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="text" class="form-control py-3" name="name" placeholder="Ismingiz" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control py-3" name="email" placeholder="Email manzilingiz" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control py-3" name="phone" placeholder="Telefon raqamingiz">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control py-3" name="subject" placeholder="Mavzu" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control py-3" name="message" rows="6" placeholder="Xabaringiz" required></textarea>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary w-100 py-3 mt-2" type="submit">Xabarni yuborish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Aloqa ma'lumotlari qismi: Desktopda 5 ulish -->
+            <div class="col-lg-5">
+                <div class="bg-light rounded p-4 p-md-5 shadow-sm h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h2 class="mb-4">Biz bilan bog'laning</h2>
+                        <p class="mb-5 text-muted">Agar sizda savollar, takliflar yoki qandaydir muammolar bo'lsa, quyidagi ma'lumotlar orqali biz bilan bog'lanishingiz mumkin.</p>
+                        
+                        <div class="d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 50px; height: 50px;">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Manzil</h5>
+                                <p class="mb-0 text-muted">Toshkent q, O'zbekiston</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 50px; height: 50px;">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Elektron pochta</h5>
+                                <p class="mb-0 text-muted">info@newsers.uz</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 50px; height: 50px;">
+                                <i class="fa fa-phone-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Telefon</h5>
+                                <p class="mb-0 text-muted">+998 71 123 45 67</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ijtimoiy tarmoqlar -->
+                    <div>
+                        <h5 class="mb-3 mt-4 mt-md-0">Ijtimoiy tarmoqlarimiz</h5>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-primary btn-sm-square rounded-circle" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-sm-square rounded-circle" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-primary btn-sm-square rounded-circle" href="#"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Us End -->
+{% endblock %}
