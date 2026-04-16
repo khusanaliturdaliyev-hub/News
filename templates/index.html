@@ -155,9 +155,13 @@
                          style="background: linear-gradient(transparent, rgba(0,0,0,0.9));">
 
                         <h3 class="mb-2">
-                            <a href="{% url 'motivation_page' motivation_main.slug %}" class="text-white text-decoration-none link-hover">
-                                {{ motivation_main.title|truncatechars:80 }}
-                            </a>
+                            {% if motivation_main.slug %}
+                                <a href="{% url 'motivation_page' motivation_main.slug %}" class="text-white text-decoration-none link-hover">
+                                    {{ motivation_main.title|truncatechars:80 }}
+                                </a>
+                            {% else %}
+                                <span class="text-white">{{ motivation_main.title|truncatechars:80 }}</span>
+                            {% endif %}
                         </h3>
 
                         <div class="d-flex align-items-center gap-3">
@@ -184,9 +188,13 @@
                             <div class="flex-grow-1">
                                 <span class="badge bg-primary-soft text-primary mb-1" style="background-color: #e7f1ff;">{{ item.category.name }}</span>
                                 <h5 class="mb-1" style="font-size: 1.1rem;">
-                                    <a href="{% url 'motivation_page' item.slug %}" class="text-dark text-decoration-none link-hover">
-                                        {{ item.title|truncatechars:70 }}
-                                    </a>
+                                    {% if item.slug %}
+                                        <a href="{% url 'motivation_page' item.slug %}" class="text-dark text-decoration-none link-hover">
+                                            {{ item.title|truncatechars:70 }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-dark">{{ item.title|truncatechars:70 }}</span>
+                                    {% endif %}
                                 </h5>
                                 <div class="d-flex gap-3 text-muted">
                                     <small><i class="fa fa-calendar-alt me-1"></i> {{ item.created_at|date:"d.m.Y" }}</small>
