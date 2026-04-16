@@ -30,9 +30,13 @@
             <div style="background:#fff;border-radius:12px;overflow:hidden;display:flex;box-shadow:0 4px 12px rgba(0,0,0,.07);margin-bottom:18px;">
                 <img src="{{ article.cover.url }}" style="width:280px;object-fit:cover;">
                 <div style="padding:16px 20px;flex:1;">
-                    <a href="{% url 'article-details' article.slug %}">
+                    {% if article.slug %}
+                        <a href="{% url 'article-details' article.slug %}">
+                            <h3 style="margin:0 0 10px;font-size:20px;">{{ article.title }}</h3>
+                        </a>
+                    {% else %}
                         <h3 style="margin:0 0 10px;font-size:20px;">{{ article.title }}</h3>
-                    </a>
+                    {% endif %}
                     <div style="font-size:13px;color:#777;margin-bottom:8px;">{{ article.created_at|date:"d.m.Y H:i"}} · 👁 {{ article.views }}</div>
                     <p style="margin:0;">Yangi avlod telefonlar sun’iy intellekt bilan ishlay boshladi...</p>
                 </div>

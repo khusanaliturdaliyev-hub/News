@@ -88,7 +88,11 @@
                                 <div class="d-flex align-items-center p-3 bg-white rounded">
                                     <img src="{{ a.cover.url }}" class="img-fluid rounded" alt="" width="250">
                                     <div class="ms-3">
-                                        <a href="{% url 'article-details' a.slug %}" class="h5 mb-2">{{ a.title|truncatechars:80 }}</a>
+                                        {% if a.slug %}
+                                            <a href="{% url 'article-details' a.slug %}" class="h5 mb-2">{{ a.title|truncatechars:80 }}</a>
+                                        {% else %}
+                                            <h5 class="h5 mb-2">{{ a.title|truncatechars:80 }}</h5>
+                                        {% endif %}
                                         <p class="text-dark mt-3 mb-0 me-3"><i
                                                 class="fa fa-clock"></i> {{ a.read_time }} o'qiladi</p>
                                     </div>
